@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 from PIL import Image
 import torchvision.transforms as transforms
+import torchvision.transforms.functional as TF
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -12,7 +13,7 @@ IMAGENET_STD  = [0.229, 0.224, 0.225]
 
 # ── TTA transform listesi ──────────────────────────────────────────────────────
 def get_tta_transforms():
-    """8 farklı augmentation — sunum günü tek görsel için."""
+    """8 farklı deterministik augmentation — aynı görüntüde her zaman aynı sonucu üretir."""
     base = [
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -22,13 +23,11 @@ def get_tta_transforms():
         transforms.Compose(base),
         transforms.Compose([transforms.RandomHorizontalFlip(p=1.0)] + base),
         transforms.Compose([transforms.RandomVerticalFlip(p=1.0)] + base),
-        transforms.Compose([transforms.RandomRotation((10, 10))] + base),
-        transforms.Compose([transforms.RandomRotation((-10, -10))] + base),
-        transforms.Compose([transforms.RandomAffine(0, translate=(0.05, 0.05))] + base),
-        transforms.Compose([transforms.ColorJitter(brightness=0.1, contrast=0.1)] + base),
-        transforms.Compose([transforms.CenterCrop(200), transforms.Resize((224, 224)),
-                            transforms.ToTensor(),
-                            transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD)]),
+        transforms.Compose([transforms.Lambda(lambda img: TF.rotate(img, 10))] + base),
+        transforms.Compose([transforms.Lambda(lambda img: TF.rotate(img, -10))] + base),
+        transforms.Compose([transforms.CenterCrop(208)] + base),
+        transforms.Compose([transforms.Lambda(lambda img: TF.adjust_contrast(img, 1.15))] + base),
+        transforms.Compose([transforms.CenterCrop(196)] + base),
     ]
 
 

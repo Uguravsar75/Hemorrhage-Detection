@@ -84,17 +84,20 @@ _EFFICIENTNET_CONFIGS = {
 
 class HemorNet(nn.Module):
     """
-    EfficientNet-B0/B3 pretrained backbone + custom classifier.
+    EfficientNet-B0/B3 pretrained backbone + optional CBAM + custom classifier.
     backbone: 'b0' (hafif) veya 'b3' (daha guclu, 300x300 input)
     freeze_backbone=False: tek fazli egitim, tum parametreler acik
+    use_cbam=False: True ise backbone cikisina CBAM (Channel+Spatial Attention) uygular
     """
-    def __init__(self, dropout=0.5, freeze_backbone=False, backbone='b0', pretrained=True):
+    def __init__(self, dropout=0.5, freeze_backbone=False, backbone='b0',
+                 pretrained=True, use_cbam=False):
         super().__init__()
 
         build_fn, weights, feat_dim, _ = _EFFICIENTNET_CONFIGS[backbone]
         efficientnet = build_fn(weights=weights if pretrained else None)
 
         self.backbone = efficientnet.features
+        self.attention = CBAM(feat_dim) if use_cbam else None
         self.gap = nn.AdaptiveAvgPool2d(1)
 
         self.classifier = nn.Sequential(
@@ -154,6 +157,8 @@ class HemorNet(nn.Module):
 
     def forward(self, x):
         x = self.backbone(x)
+        if self.attention is not None:
+            x = self.attention(x)
         x = self.gap(x)
         return self.classifier(x)
 

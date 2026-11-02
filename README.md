@@ -1,5 +1,10 @@
 # Head CT Intracranial Hemorrhage Detection
 
+[![CI](https://github.com/Uguravsar75/Hemorrhage-Detection/actions/workflows/ci.yml/badge.svg)](https://github.com/Uguravsar75/Hemorrhage-Detection/actions/workflows/ci.yml)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.1%2B-ee4c2c.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 **CE 480 Deep Learning — Project 2**  
 Deep learning-based binary classification (`Normal` vs. `Hemorrhage`) of axial brain CT scans using an ensemble of **HemorNet (EfficientNet-B3)** and **ConvNeXt-Tiny**, complete with CT-specific preprocessing (CLAHE), custom medical data augmentations, Test-Time Augmentation (TTA), and a Tkinter desktop GUI.
 
@@ -38,6 +43,8 @@ Deep learning-based binary classification (`Normal` vs. `Hemorrhage`) of axial b
 ├── results/
 │   ├── metrics/                 # JSON evaluation metrics and training history logs
 │   └── plots/                   # ROC, PR, Confusion Matrix, training curves, and GUI screenshots
+├── tests/
+│   └── test_pipeline.py         # Automated unit tests for preprocessing, models, and TTA
 └── LICENSE                      # MIT License
 ```
 
