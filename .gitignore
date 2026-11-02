@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# OS / Editor / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# Archives & large binary files
+*.zip
+*.rar
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+
+# Trained model weights (use GitHub Releases / external storage)
+saved_models/*.pth
+saved_models/*.pt
+saved_models/*.ckpt
+saved_models/*.onnx
+saved_models/*.bin
+
+# Raw datasets (keep labels.csv, README.md, and small web_crawled samples)
+data/raw/head_ct/normal/
+data/raw/head_ct/hemorrhage/
+data/raw/rsna/
+
+# Course lecture notes & local documents
+docs/
+
+# Temporary logs & Optuna databases
+*.log
+*.db
+*.sqlite3

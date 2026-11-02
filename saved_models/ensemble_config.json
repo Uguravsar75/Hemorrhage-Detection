@@ -1,0 +1,7 @@
+{
+  "weights": {
+    "HemorNet": 0.55,
+    "ConvNeXt-Tiny": 0.45
+  },
+  "threshold": 0.40
+}
